@@ -1,0 +1,12 @@
+#!/bin/bash
+
+TEST_DIR="$(cd -- "$(dirname "$0")/.." && pwd)"
+export GATLING_CONF="$TEST_DIR/conf"
+
+if ! type gatling.sh >/dev/null 2>&1; then
+  echo 'gatling.sh not found in PATH'
+  exit 1;
+fi
+
+gatling.sh -m \
+  "$@"
