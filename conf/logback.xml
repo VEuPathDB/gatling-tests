@@ -13,7 +13,9 @@
 	<!-- Uncomment for logging ONLY FAILED HTTP request and responses -->
 	<!-- 	<logger name="io.gatling.http.ahc" level="DEBUG" /> -->
 
-	<root level="WARN">
+	<logger name="io.gatling.http.ahc" level="${httpLogging:-INFO}" />
+
+	<root level="${rootLogging:-WARN}">
 		<appender-ref ref="CONSOLE" />
 	</root>
 
