@@ -48,3 +48,15 @@ Java system properties on the commandline.
 See
 [LOGBack FAQ](http://logback.qos.ch/faq.html#overrideFromCL) for more 
 information.
+
+----
+
+### wdk.StrategyMix
+
+Runs a mix of strategies.
+
+To select which product to use, set the `product` variable in `StrategyMix.scala` and each scenario files, 
+e.g. `GeneTextSearchScenario`. (hackish, I don't yet know how to pass parameters
+into a Scala object.)
+
+
