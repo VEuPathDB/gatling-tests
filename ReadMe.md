@@ -19,7 +19,7 @@ Run, with interactive menu choice,
 
 or, for single test class,
 
-    bin/grun -s GeneTextSearch
+    bin/grun -s wdk.StrategyMix 
     
     
 ----

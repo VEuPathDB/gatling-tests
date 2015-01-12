@@ -11,6 +11,8 @@ object GeneTextSearchScenario {
   */
   val DEBUG = 1
 
+  val searchTerms = csv("gene-terms.csv").circular
+
   val randIntFeeder = new Feeder[String] {
     private val RNG = new scala.util.Random
     // always return true as this feeder can be polled infinitively
@@ -20,9 +22,6 @@ object GeneTextSearchScenario {
       Map("timestamp" -> timestamp)
     }
   }
-
-  // use a searchTerm that will also be matched in the summary results
-  val searchTerm = "polymerase"
 
 	val headers_0 = Map("Accept" -> "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
 
@@ -50,9 +49,10 @@ object GeneTextSearchScenario {
 
 	val scn = scenario("GeneTextSearchBodies")
 	  .feed(randIntFeeder)
+	  .feed(searchTerms)
 		.exec(
 		      http("processQuestionSetsFlat")
-			.get("/processQuestionSetsFlat.do?questionFullName=GeneQuestions.GenesByTextSearch&array%28text_search_organism%29=Eimeria%2CGregarina%2CNeospora%2CToxoplasma%2CEimeria+acervulina%2CEimeria+brunetti%2CEimeria+falciformis%2CEimeria+maxima%2CEimeria+mitis%2CEimeria+necatrix%2CEimeria+praecox%2CEimeria+tenella%2CEimeria+acervulina+Houghton%2CEimeria+brunetti+Houghton%2CEimeria+falciformis+Bayer+Haberkorn+1970%2CEimeria+maxima+Weybridge%2CEimeria+mitis+Houghton%2CEimeria+necatrix+Houghton%2CEimeria+praecox+Houghton%2CEimeria+tenella+strain+Houghton%2CGregarina+niphandrodes%2CGregarina+niphandrodes+Unknown+strain%2CNeospora+caninum%2CNeospora+caninum+Liverpool%2CToxoplasma+gondii%2CToxoplasma+gondii+GT1%2CToxoplasma+gondii+ME49%2CToxoplasma+gondii+RH%2CToxoplasma+gondii+VEG%2CApicomplexa&array%28text_fields%29=Gene+ID%2CAlias%2CGene+product%2CGO+terms+and+definitions%2CGene+notes%2CUser+comments%2CProtein+domain+names+and+descriptions%2CEC+descriptions%2CCommunity+annotation%2CMetabolic+pathway+names+and+descriptions&array%28whole_words%29=no&value%28max_pvalue%29=-30&value%28text_expression%29=" + searchTerm + "&value%28timestamp%29=" + "${timestamp}" + "&questionSubmit=Get+Answer&go.x=0&go.y=0")
+			.get("/processQuestionSetsFlat.do?questionFullName=GeneQuestions.GenesByTextSearch&array%28text_search_organism%29=Eimeria%2CGregarina%2CNeospora%2CToxoplasma%2CEimeria+acervulina%2CEimeria+brunetti%2CEimeria+falciformis%2CEimeria+maxima%2CEimeria+mitis%2CEimeria+necatrix%2CEimeria+praecox%2CEimeria+tenella%2CEimeria+acervulina+Houghton%2CEimeria+brunetti+Houghton%2CEimeria+falciformis+Bayer+Haberkorn+1970%2CEimeria+maxima+Weybridge%2CEimeria+mitis+Houghton%2CEimeria+necatrix+Houghton%2CEimeria+praecox+Houghton%2CEimeria+tenella+strain+Houghton%2CGregarina+niphandrodes%2CGregarina+niphandrodes+Unknown+strain%2CNeospora+caninum%2CNeospora+caninum+Liverpool%2CToxoplasma+gondii%2CToxoplasma+gondii+GT1%2CToxoplasma+gondii+ME49%2CToxoplasma+gondii+RH%2CToxoplasma+gondii+VEG%2CApicomplexa&array%28text_fields%29=Gene+ID%2CAlias%2CGene+product%2CGO+terms+and+definitions%2CGene+notes%2CUser+comments%2CProtein+domain+names+and+descriptions%2CEC+descriptions%2CCommunity+annotation%2CMetabolic+pathway+names+and+descriptions&array%28whole_words%29=no&value%28max_pvalue%29=-30&value%28text_expression%29=" + "${searchTerm}" + "&value%28timestamp%29=" + "${timestamp}" + "&questionSubmit=Get+Answer&go.x=0&go.y=0")
 			.headers(headers_0)
 		)
 		.exec(
@@ -73,12 +73,11 @@ object GeneTextSearchScenario {
 			.formParam("resultsOnly", "true")
 			.formParam("strategy_checksum", "124cbfd3290303a00864be7578a0fd6a")
 			.formParam("noskip", "1")
-      .check(regex(searchTerm).exists)
 		)
 		.exec(
-            http("showSummaryView")
+            http("showSummaryView (result list)")
 			.get("/showSummaryView.do?strategy=${strategy_id}&step=${step_id}&view=_default&_=1420837122682")
-      .check(regex(searchTerm).exists)
+      .check(regex("${expectedHit}").exists)
 		)
 		.exec(
             http("showResultSize")

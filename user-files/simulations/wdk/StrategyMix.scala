@@ -15,8 +15,8 @@ class StrategyMix extends Simulation {
 
   setUp(
     GeneTextSearchScenario.scn
-      .inject(atOnceUsers(1))
-//      .inject(rampRate(10 usersPerSec) to(100 usersPerSec) during(5 minutes))
+      .inject(atOnceUsers(5))
+   //   .inject(rampUsers(50) over (5 seconds))
       .protocols(httpProtocol)
   )
 }
