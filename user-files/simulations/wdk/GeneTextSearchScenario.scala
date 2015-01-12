@@ -65,16 +65,6 @@ object GeneTextSearchScenario {
 			.formParam("state", "")
 		)
 		.exec(
-            http("showSummary (POST)")
-			.post("/showSummary.do")
-			.headers(headers_6)
-			.formParam("strategy", "${strategy_id}")
-			.formParam("step", "${step_id}")
-			.formParam("resultsOnly", "true")
-			.formParam("strategy_checksum", "124cbfd3290303a00864be7578a0fd6a")
-			.formParam("noskip", "1")
-		)
-		.exec(
             http("showSummaryView (result list)")
 			.get("/showSummaryView.do?strategy=${strategy_id}&step=${step_id}&view=_default&_=1420837122682")
       .check(regex("${expectedHit}").exists)
