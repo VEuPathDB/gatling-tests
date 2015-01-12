@@ -25,21 +25,9 @@ object GeneTextSearchScenario {
 
 	val headers_0 = Map("Accept" -> "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
 
-	val headers_1 = Map("Accept" -> "*/*")
-
-	val headers_2 = Map("X-Requested-With" -> "XMLHttpRequest")
-
 	val headers_4 = Map(
 		"Accept" -> "application/json, text/javascript, */*; q=0.01",
 		"Pragma" -> "no-cache",
-		"X-Requested-With" -> "XMLHttpRequest")
-
-	val headers_6 = Map(
-		"Pragma" -> "no-cache",
-		"X-Requested-With" -> "XMLHttpRequest")
-
-	val headers_8 = Map(
-		"Accept" -> "*/*",
 		"X-Requested-With" -> "XMLHttpRequest")
 
 	val headers_9 = Map(
