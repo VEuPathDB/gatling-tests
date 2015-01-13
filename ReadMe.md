@@ -9,7 +9,7 @@ Add to `$PATH`
 
 Acquire tests
 
-    git clone git@github.com/EuPathDB/gatling-tests
+    git clone git@github.com:EuPathDB/gatling-tests
 
     cd gatling-tests
     
