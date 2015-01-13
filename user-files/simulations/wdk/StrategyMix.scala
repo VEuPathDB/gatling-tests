@@ -37,11 +37,17 @@ class StrategyMix extends Simulation {
     .acceptEncodingHeader("gzip, deflate")
     .userAgentHeader("EuPathDB Gatling Agent")
 
+  val httpProtocol_trichvm = http
+    .baseURL("http://v1-3." + sites(product)("host") + "/" + sites(product)("webapp"))
+    .acceptHeader("text/html, */*; q=0.01")
+    .acceptEncodingHeader("gzip, deflate")
+    .userAgentHeader("EuPathDB Gatling Agent")
+
   setUp(
     GeneTextSearchScenario.scn
-       .inject(atOnceUsers(1))
+    //   .inject(atOnceUsers(1))
    //   .inject(rampUsers(50) over (5 seconds))
-    //   .inject(constantUsersPerSec(1) during(30 seconds))
-      .protocols(httpProtocol)
+      .inject(constantUsersPerSec(1) during(30 seconds))
+      .protocols(httpProtocol_trichvm)
   )
 }
