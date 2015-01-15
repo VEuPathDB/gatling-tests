@@ -15,12 +15,21 @@ Acquire tests
     
 Run, with interactive menu choice,
 
-    bin/grun
+    bin/grun --host w1.toxodb.org
 
 or, for single test class,
 
-    bin/grun -s wdk.StrategyMix 
-    
+    bin/grun -s wdk.StrategyMix --host w1.toxodb.org
+
+----
+
+### Authentication
+
+Development sites require authentication. Use the `auth_tkt` cookie value from 
+a web browser that has authenticated to the site under test and supply the value
+with the `--authtoken` option.
+
+    bin/grun -s wdk.StrategyMix --host mheiges.trichdb.org --authtoken jjBhMDzUNAZjMQzyNzRhNWEY4WU0ODgOjTk5NGVxZG1MNGI3MzlhZGWwaARiIFFawWRiITE0MjEyOTM5OTg6
     
 ----
 

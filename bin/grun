@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 TEST_DIR="$(cd -- "$(dirname "$0")/.." && pwd)"
 export GATLING_CONF="$TEST_DIR/conf"
 
@@ -8,5 +9,43 @@ if ! type gatling.sh >/dev/null 2>&1; then
   exit 1;
 fi
 
-gatling.sh -m \
-  "$@"
+# pick out and remove options that are processed
+# by this script.
+until [ -z "$*" ]; do
+    arg=$1
+
+    if   [[ "$arg" == "--help" || "$arg" == "help" ]]; then
+         SHOW_HELP=1
+    elif [[ "$arg" == "--host" ]]; then
+        shift
+        HOST="$1"
+    elif [[ "$arg" == "--authtoken" ]]; then
+        shift
+        AUTHTOKEN="$1"
+    else
+        ARGS_NOOPTS="$ARGS_NOOPTS $arg"
+    fi
+    shift
+done
+# assign from remaining options to be passed on to the
+# gatling.sh script
+set -- $ARGS_NOOPTS
+set --
+
+# Determine the name of the tomcat webapp. This assumes that
+# the root URL, http://toxodb.org/, redirects directly to 
+# the Tomcat webapp path, http://toxodb.org/toxo/. Returns
+# 'toxo' in this example.
+if [[ -n $AUTHTOKEN ]]; then
+  AUTHOPT="--cookie auth_tkt=$AUTHTOKEN"
+fi
+WEBAPP="$(curl $AUTHOPT --user-agent 'EuPathDB Gatling Agent (pre-flight)' -s -I http://$HOST/ | grep '^Location:' | cut -d'/' -f4)"
+
+JAVA_OPTS="-Dwebapp=$WEBAPP -Dhost=$HOST"
+
+if [[ -n $AUTHTOKEN ]]; then
+  JAVA_OPTS="$JAVA_OPTS -Dauthtoken=$AUTHTOKEN"
+fi
+
+JAVA_OPTS="$JAVA_OPTS" gatling.sh -m \
+  "$ARGS_NOOPTS"
