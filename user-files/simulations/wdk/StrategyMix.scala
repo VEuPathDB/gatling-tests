@@ -37,13 +37,14 @@ class StrategyMix extends Simulation {
     .userAgentHeader("EuPathDB Gatling Agent")
 
   val geneTextSearch = new GeneTextSearchScenario(product)
+  val estSearch = new EstSearchScenario(product)
   val publicStrategy = new PublicStrategyScenario(product)
   
   setUp(
-    publicStrategy.scn
-       .inject(atOnceUsers(10))
-   //   .inject(rampUsers(50) over (5 seconds))
-      //.inject(constantUsersPerSec(1) during(30 seconds))
+    estSearch.scn
+       .inject(atOnceUsers(1))
+      //  .inject(rampUsers(5) over (30 seconds))
+      // .inject(constantUsersPerSec(1) during(30 seconds))
       .protocols(httpProtocol)
   )
 }

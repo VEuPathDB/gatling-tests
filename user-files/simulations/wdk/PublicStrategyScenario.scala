@@ -67,14 +67,10 @@ class PublicStrategyScenario(
 	val headers_9 = Map(
 		"Accept" -> "application/json, text/javascript, */*; q=0.01",
 		"X-Requested-With" -> "XMLHttpRequest")
-
+  
 	val scn = scenario("PublicStrategy")
 	  .feed(strategyIdFeeder)
-	  .doIf(System.getProperty("authtoken") != null) {
-      exec(
-        addCookie(Cookie("auth_tkt", System.getProperty("authtoken")))
-      )
-	  }
+    .exec(setAuthTktCookie)
 		.exec(
 		      http("public strategy: ${name}")
 			.get("/im.do?s=${imID}")

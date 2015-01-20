@@ -18,7 +18,7 @@ class GeneTextSearchScenario(
   val querySubstrings = Map(
     "ToxoDB" -> Map(
       "textFields" -> "Gene+ID%2CAlias%2CGene+product%2CGO+terms+and+definitions%2CGene+notes%2CUser+comments%2CProtein+domain+names+and+descriptions%2CEC+descriptions%2CCommunity+annotation%2CMetabolic+pathway+names+and+descriptions",
-      "organisms"  -> "Eimeria%2CGregarina%2CNeospora%2CToxoplasma%2CEimeria+acervulina%2CEimeria+brunetti%2CEimeria+falciformis%2CEimeria+maxima%2CEimeria+mitis%2CEimeria+necatrix%2CEimeria+praecox%2CEimeria+tenella%2CEimeria+acervulina+Houghton%2CEimeria+brunetti+Houghton%2CEimeria+falciformis+Bayer+Haberkorn+1970%2CEimeria+maxima+Weybridge%2CEimeria+mitis+Houghton%2CEimeria+necatrix+Houghton%2CEimeria+praecox+Houghton%2CEimeria+tenella+strain+Houghton%2CGregarina+niphandrodes%2CGregarina+niphandrodes+Unknown+strain%2CNeospora+caninum%2CNeospora+caninum+Liverpool%2CToxoplasma+gondii%2CToxoplasma+gondii+GT1%2CToxoplasma+gondii+ME49%2CToxoplasma+gondii+RH%2CToxoplasma+gondii+VEG%2CApicomplexa"
+      "organisms"  -> "Eimeria%2CNeospora%2CToxoplasma%2CEimeria+acervulina%2CEimeria+brunetti%2CEimeria+falciformis%2CEimeria+maxima%2CEimeria+mitis%2CEimeria+necatrix%2CEimeria+praecox%2CEimeria+tenella%2CEimeria+acervulina+Houghton%2CEimeria+brunetti+Houghton%2CEimeria+falciformis+Bayer+Haberkorn+1970%2CEimeria+maxima+Weybridge%2CEimeria+mitis+Houghton%2CEimeria+necatrix+Houghton%2CEimeria+praecox+Houghton%2CEimeria+tenella+strain+Houghton%2CNeospora+caninum%2CNeospora+caninum+Liverpool%2CToxoplasma+gondii%2CToxoplasma+gondii+GT1%2CToxoplasma+gondii+ME49%2CToxoplasma+gondii+RH%2CToxoplasma+gondii+VEG%2CApicomplexa"
     ),
     "TrichDB" -> Map(
       "textFields" -> "Gene+ID%2CAlias%2CGene+product%2CGO+terms+and+definitions%2CGene+notes%2CUser+comments%2CProtein+domain+names+and+descriptions%2CEC+descriptions",
@@ -55,6 +55,7 @@ class GeneTextSearchScenario(
 	val scn = scenario("GeneTextSearchBodies")
 	  .feed(randIntFeeder)
 	  .feed(searchTerms)
+    .exec(setAuthTktCookie)
 		.exec(
 		      http("processQuestionSetsFlat")
 			.get(processQuestionUrl("${feed_searchTerm}","${feed_randInt}"))

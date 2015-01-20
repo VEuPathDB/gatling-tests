@@ -8,6 +8,11 @@ class WdkScenario(
   val product: String
 ) {
 
+  val auth_tkt = if (System.getProperty("authtoken") != null ) System.getProperty("authtoken") else ""
+  val setAuthTktCookie = {
+      exec(addCookie(Cookie("auth_tkt", auth_tkt)))
+  }
+  
   val RNG = new scala.util.Random
 
   // return Integer between a inclusive and b exclusive
