@@ -19,9 +19,13 @@ until [ -z "$*" ]; do
     elif [[ "$arg" == "--host" ]]; then
         shift
         HOST="$1"
+    elif [[ "$arg" == "--requestTimeout" ]]; then
+        shift
+        X_JAVA_OPTS="$X_JAVA_OPTS -DrequestTimeout=$1"
     elif [[ "$arg" == "--authtoken" ]]; then
         shift
         AUTHTOKEN="$1"
+        X_JAVA_OPTS="$X_JAVA_OPTS -Dauthtoken=$AUTHTOKEN"
     else
         ARGS_NOOPTS="$ARGS_NOOPTS $arg"
     fi
@@ -41,11 +45,7 @@ if [[ -n $AUTHTOKEN ]]; then
 fi
 WEBAPP="$(curl $AUTHOPT --user-agent 'EuPathDB Gatling Agent (pre-flight)' -s -I http://$HOST/ | grep '^Location:' | cut -d'/' -f4)"
 
-JAVA_OPTS="-Dwebapp=$WEBAPP -Dhost=$HOST"
-
-if [[ -n $AUTHTOKEN ]]; then
-  JAVA_OPTS="$JAVA_OPTS -Dauthtoken=$AUTHTOKEN"
-fi
+JAVA_OPTS="-Dwebapp=$WEBAPP -Dhost=$HOST $X_JAVA_OPTS ${JAVA_OPTS} "
 
 JAVA_OPTS="$JAVA_OPTS" gatling.sh -m \
   "$ARGS_NOOPTS"
