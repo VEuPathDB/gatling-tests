@@ -5,7 +5,7 @@ Download, untar Gatling - [http://gatling.io/download](http://gatling.io/downloa
 
 Add to `$PATH`
 
-    export PATH=$PATH:~/gatling-charts-highcharts-bundle-2.1.2/bin
+    export PATH=$PATH:~/gatling-charts-highcharts-bundle-2.1.4/bin
 
 Acquire tests
 

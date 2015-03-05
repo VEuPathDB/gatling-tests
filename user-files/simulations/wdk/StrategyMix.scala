@@ -42,9 +42,15 @@ class StrategyMix extends Simulation {
   
   setUp(
     estSearch.scn
-       .inject(atOnceUsers(1))
-      //  .inject(rampUsers(5) over (30 seconds))
-      // .inject(constantUsersPerSec(1) during(30 seconds))
-      .protocols(httpProtocol)
-  )
+      // .inject(atOnceUsers(1))
+      // .inject(rampUsers(20) over (20 seconds))
+      .inject(constantUsersPerSec(1) during(120 seconds))
+      ,
+    publicStrategy.scn
+      .inject(constantUsersPerSec(1) during(120 seconds))
+      ,
+    geneTextSearch.scn
+      .inject(constantUsersPerSec(1) during(120 seconds))
+  ) .protocols(httpProtocol)
+
 }
